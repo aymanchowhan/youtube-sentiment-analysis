@@ -1,0 +1,15 @@
+pandas
+numpy
+nltk
+scikit-learn
+transformers
+torch
+matplotlib
+seaborn
+plotly
+streamlit
+fastapi
+uvicorn
+mlflow
+dvc
+google-api-python-client

@@ -1,15 +1,51 @@
+# Core data
 pandas
 numpy
-nltk
 scikit-learn
-transformers
-torch
+joblib
+scipy
+
+# Visualization
 matplotlib
-seaborn
 plotly
+wordcloud
+pillow
+
+# Dashboard
 streamlit
-fastapi
-uvicorn
+
+# NLP Preprocessing
+nltk
+regex
+
+# NLP Sentiment
+vaderSentiment
+transformers
+tokenizers
+safetensors
+huggingface_hub
+
+# Topic modeling
+umap-learn
+hdbscan
+numba
+
+# Flask API
+Flask
+flask-cors
+Werkzeug
+
+# MLflow
 mlflow
-dvc
+
+# YouTube API
 google-api-python-client
+google-auth
+google-auth-httplib2
+
+# Utilities
+python-dotenv
+tqdm
+requests
+click
+PyYAML

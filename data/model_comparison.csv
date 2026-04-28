@@ -1,0 +1,3 @@
+Model,Accuracy,F1 Score (weighted)
+BERT,0.3973,0.363
+RoBERTa,0.732,0.7155

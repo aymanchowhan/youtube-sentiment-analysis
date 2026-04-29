@@ -11,6 +11,13 @@ import matplotlib.pyplot as plt
 from collections import Counter
 import warnings
 warnings.filterwarnings("ignore")
+import nltk
+import os
+
+# Download NLTK data for cloud deployment
+nltk.download('stopwords', quiet=True)
+nltk.download('punkt', quiet=True)
+nltk.download('wordnet', quiet=True)
 
 # ─────────────────────────────────────────
 # PAGE CONFIG

@@ -1,51 +1,28 @@
-# Core data
 pandas
 numpy
 scikit-learn
-joblib
 scipy
-
-# Visualization
 matplotlib
 plotly
 wordcloud
 pillow
-
-# Dashboard
 streamlit
-
-# NLP Preprocessing
 nltk
-regex
-
-# NLP Sentiment
 vaderSentiment
 transformers
+torch
 tokenizers
 safetensors
 huggingface_hub
-
-# Topic modeling
 umap-learn
 hdbscan
 numba
-
-# Flask API
-Flask
+flask
 flask-cors
-Werkzeug
-
-# MLflow
 mlflow
-
-# YouTube API
 google-api-python-client
 google-auth
 google-auth-httplib2
-
-# Utilities
 python-dotenv
 tqdm
 requests
-click
-PyYAML

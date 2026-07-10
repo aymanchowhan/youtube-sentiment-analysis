@@ -17,7 +17,7 @@ emotions = []
 
 print("Detecting emotions...")
 
-for comment in tqdm(df["clean_comment"]):
+for comment in tqdm(df["comment"]):  # use ORIGINAL comment (emojis/punctuation carry emotional signal)
 
     try:
         text = str(comment)[:512]

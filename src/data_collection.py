@@ -1,7 +1,14 @@
 from googleapiclient.discovery import build
 import pandas as pd
 import time
-API_KEY = "AIzaSyCbwwd8iTHATcxX5Yv-D0NrxuCq9ZGYyd8"
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# SECURITY: never hardcode API keys in source. Put this in a .env file instead:
+#   YOUTUBE_API_KEY=your-key-here
+API_KEY = os.environ["YOUTUBE_API_KEY"]
 
 youtube = build("youtube", "v3", developerKey=API_KEY)
 

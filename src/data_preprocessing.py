@@ -4,13 +4,10 @@ import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
-# Load dataset
-df = pd.read_csv("data/comments.csv")
-
 # Stopwords
 stop_words = set(stopwords.words("english"))
 
-# Cleaning function
+# Reusable cleaning function
 def clean_comment(text):
 
     text = str(text)
@@ -19,13 +16,13 @@ def clean_comment(text):
     text = text.lower()
 
     # Remove URLs
-    text = re.sub(r"http\S+|www\S+|https\S+", '', text)
+    text = re.sub(r"http\S+|www\S+|https\S+", "", text)
 
     # Remove HTML tags
-    text = re.sub(r'<.*?>', '', text)
+    text = re.sub(r"<.*?>", "", text)
 
-    # Remove special characters but keep emojis
-    text = re.sub(r'[^a-zA-Z0-9\s]', ' ', text)
+    # Remove special characters
+    text = re.sub(r"[^a-zA-Z0-9\s]", " ", text)
 
     # Tokenization
     tokens = word_tokenize(text)
@@ -33,16 +30,16 @@ def clean_comment(text):
     # Remove stopwords
     tokens = [word for word in tokens if word not in stop_words]
 
-    # Join words
-    cleaned_text = " ".join(tokens)
-
-    return cleaned_text
+    return " ".join(tokens)
 
 
-# Apply cleaning
-df["clean_comment"] = df["comment"].apply(clean_comment)
+# Only run this when executing this file directly
+if __name__ == "__main__":
 
-# Save cleaned data
-df.to_csv("data/cleaned_comments.csv", index=False)
+    df = pd.read_csv("data/comments.csv")
 
-print("✅ Text preprocessing completed")
+    df["clean_comment"] = df["comment"].apply(clean_comment)
+
+    df.to_csv("data/cleaned_comments.csv", index=False)
+
+    print("✅ Text preprocessing completed")

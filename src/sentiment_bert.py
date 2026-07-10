@@ -16,7 +16,7 @@ if __name__ == "__main__":
     sentiments = []
     print("Running BERT sentiment analysis...")
 
-    for comment in tqdm(df["clean_comment"]):
+    for comment in tqdm(df["comment"]):  # use ORIGINAL comment (BERT handles raw text better)
         try:
             text = str(comment)[:512]
             if text.strip() == "":

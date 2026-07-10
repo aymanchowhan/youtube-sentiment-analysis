@@ -11,7 +11,7 @@ if __name__ == "__main__":
     sentiments = []
     print("Running VADER sentiment analysis...")
 
-    for comment in tqdm(df["clean_comment"]):
+    for comment in tqdm(df["comment"]):  # use ORIGINAL comment (emojis/punctuation matter for VADER)
         score = analyzer.polarity_scores(str(comment))
         compound = score["compound"]
         if compound >= 0.05:
@@ -25,9 +25,7 @@ if __name__ == "__main__":
     df["sentiment_vader"] = sentiments
     df.to_csv("data/sentiment_vader.csv", index=False)
     print("VADER sentiment analysis completed!")
-
-
-# ── Live prediction — used by app.py ──────────────────────────────
+    
 def predict_vader(text):
     if not isinstance(text, str) or text.strip() == "":
         return "neutral"

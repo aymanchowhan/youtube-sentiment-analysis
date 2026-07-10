@@ -25,7 +25,7 @@ EXPOSE 8501
 EXPOSE 8080
 EXPOSE 5000
 
-CMD ["streamlit", "run", "dashboard/app.py", \
+CMD ["streamlit", "run", "dashboard/appdemo.py", \
      "--server.port=8501", \
      "--server.address=0.0.0.0", \
      "--server.headless=true"]

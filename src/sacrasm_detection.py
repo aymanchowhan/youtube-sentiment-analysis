@@ -2,41 +2,59 @@ import pandas as pd
 import re
 
 print("Loading dataset...")
-df = pd.read_csv("data/fake_comment_results.csv")  # builds on previous
+df = pd.read_csv("data/cleaned_comments.csv")  # run BEFORE merge (avoids circular dependency on final_dataset.csv)
 
-# Sarcasm detection using linguistic patterns
-# This is rule-based — appropriate for a Master's project
-# (deep learning sarcasm models need labelled training data you don't have)
-
+# Sarcasm patterns (text-based + emoji-based for flexibility)
 SARCASM_PATTERNS = [
-    # Contradiction patterns
-    r"(great|amazing|awesome|love|best|perfect|excellent).{0,30}(but|except|however|yet|still|though)",
-    r"(but|except|however|yet|still|though).{0,30}(terrible|worst|bad|horrible|awful|useless|broken|fail)",
+    # Obvious sarcasm markers
+    r"oh\s*(sure|great|yeah)",
+    r"yeah\s*right",
+    r"sure\s*(jan|buddy|thing)",
     
-    # Obvious sarcasm phrases
-    r"oh great",
-    r"oh sure",
-    r"yeah right",
-    r"totally (works|fine|great|amazing|helpful)",
-    r"wow (so|such|very|really).{0,20}(helpful|useful|great|amazing)",
-    r"thanks (for nothing|a lot for nothing)",
-    r"just what (i|we) needed",
+    # Contradiction patterns (positive word + negative)
+    r"(love|great|amazing|best|perfect).{0,40}(not|never|except|but|however)",
+    r"(not|never|except|but|however).{0,40}(terrible|worst|bad|awful|waste|useless)",
     
-    # Contradiction: positive word + negative outcome
-    r"(love|loved|loving).{0,20}(not|never|doesn.t|doesn't|don.t)",
-    r"works (perfectly|great|fine).{0,15}(not|never|nope|lol|haha|😂|🤣)",
+    # Sarcasm phrases
+    r"thanks\s*(for\s*)?(nothing|a lot|a bunch)",
+    r"just\s*what\s*(i|we|you)\s*need(ed)?",
+    r"so\s*(helpful|useful|clear|easy|simple)",
+    r"what\s*a\s*(great|wonderful|brilliant|fantastic)\s*(waste|joke|fail)",
     
-    # Classic sarcasm markers
-    r"(sure|obviously|clearly|definitely).{0,20}(not|never)",
-    r"what a (great|wonderful|amazing|fantastic).{0,20}(waste|joke|disaster|mess|fail)",
-    r"so (helpful|useful|clear|simple|easy).{0,10}(not|😂|🤣|lol|lmao)",
+    # Opposite sentiments
+    r"(best|greatest|worst|terrible).*ever.*not",
+    r"works\s*(perfectly|great|fine).{0,20}(not|nope)",
+    
+    # Text-based sarcasm markers (replacing emojis)
+    r"lol.*not",
+    r"haha.*actually",
+    r"sure.*right",
+    r"yeah.*totally",
+    
+    # EMOJI PATTERNS (for when emojis are present)
+    r"love.*😒",  # love + eye roll
+    r"great.*🙄",  # great + eye roll
+    r"(best|perfect|amazing).*🤮",  # positive + vomit
+    r"(terrible|awful|hate|worst).*😂",  # negative + laughing
+    r"(terrible|awful|hate|worst).*😆",  # negative + laughing
+    r"thanks.*😤",  # thanks + angry
+    r"so\s*helpful.*😤",  # so helpful + angry
+    r"(love|great).*😡",  # positive sentiment + angry face
+    r"great.*🤡",     # great + clown (mockery)
+    r"amazing.*💀",   # amazing + skull (dead/done)
 ]
 
 def detect_sarcasm(text):
     text = str(text).lower()
+    
+    # Skip very short comments
+    if len(text) < 10:
+        return "not_sarcastic"
+    
     for pattern in SARCASM_PATTERNS:
         if re.search(pattern, text):
             return "sarcastic"
+    
     return "not_sarcastic"
 
 print("Detecting sarcasm...")
@@ -44,13 +62,12 @@ df["sarcasm_label"] = df["comment"].apply(detect_sarcasm)
 
 df.to_csv("data/sarcasm_results.csv", index=False)
 
-# Summary
 sarcastic_count = (df["sarcasm_label"] == "sarcastic").sum()
 total = len(df)
 print(f"\nSarcasm Detection Complete!")
 print(f"Total comments  : {total}")
 print(f"Sarcastic       : {sarcastic_count} ({sarcastic_count/total*100:.1f}%)")
 print(f"Not sarcastic   : {total - sarcastic_count}")
-print(f"\nExample sarcastic comments found:")
+print(f"\nExample sarcastic comments:")
 print(df[df["sarcasm_label"]=="sarcastic"]["comment"].head(5).to_string())
 print(f"\nSaved to data/sarcasm_results.csv")

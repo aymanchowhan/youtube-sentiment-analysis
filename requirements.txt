@@ -19,7 +19,7 @@ hdbscan
 numba
 flask
 flask-cors
-mlflow
+mlflow==2.22.2
 google-api-python-client
 google-auth
 google-auth-httplib2
